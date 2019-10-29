@@ -1,0 +1,16 @@
+Correr el proceso en el background de docker
+
+./server &
+
+Ver que sockets estan usandose
+
+cat /proc/net/tcp
+cat /proc/net/raw
+cat /proc/net/udp
+
+Probando con el de tcp sale info, sino no
+
+sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode                                                     
+   0: 00000000:5B7F 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 55674 1 0000000000000000 100 0 0 10 0 
+
+En esto nos fijamos en el local_address -> Esto tiene 2 partes -> la primera es el ip, la segunda es el port -> el ip va a ser 0.0.0.0 y el port es el decimal del heza 5B7F
