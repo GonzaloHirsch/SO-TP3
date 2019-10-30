@@ -8,9 +8,10 @@
    
 int main(int argc, char const *argv[]) 
 { 
+    //printf("\n# \033[D \033[A \033[A \033[D \033[B \033[C \033[B \033[D *\n");
     int sock = 0, valread; 
     struct sockaddr_in serv_addr; 
-    char *hello = "valgrind manda"; 
+    char *hello = "quine"; 
     char buffer[1024] = {0}; 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) 
     { 
@@ -34,18 +35,27 @@ int main(int argc, char const *argv[])
         return -1; 
     } 
 
-    send(sock , hello , strlen(hello) , 0 );
+    //send(sock , hello , strlen(hello) , 0 );
 
-/*
     char buff[1024] = {0};
+    char c;
+    int index = 0;
 
-    while(!strcmp(buff, "quit")){
+    printf("%d", strcmp(buff, "quit") != 0);
+    while(strcmp(buff, "quit") != 0){
         printf( "Enter a command :");
-        gets(buff);
+        while((c = getchar()) != '\n'){
+            buff[index++] = c;
+        }
+        buff[index++] = '\n';
+        buff[index] = 0;
+
+        //gets(buff);
         send(sock , buff , strlen(buff) , 0 ); 
-        valread = read( sock , buffer, 1024); 
-        printf("%s\n",buffer ); 
-    }
-*/
+        //valread = read( sock , buffer, 1024); 
+        //printf("%s\n",buffer ); 
+        index = 0;
+    }    
+
     return 0; 
 } 
