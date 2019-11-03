@@ -69,3 +69,8 @@ La respuesta es: "morse"
 
 EBADF es Error Bad File Descriptor, tiene el valor 9 en la definicion
 
+Setteando un breakpoint en la función ebadf, haciendo disassembly y viendo que llamaba a strlen
+y a write, si se ve el valor de rdi antes de llamar a strlen, y se imprimen un par de strings desde
+esa posición, se ve claramente que uno de ellos dice
+"La respuesta a este acertijo es pistolero"
+No sé si había que hacerlo así pero funcionó.
