@@ -8,6 +8,8 @@ Preguntas(en orden):
 ¿Qué diferencias hay entre TCP y UDP y en qué casos conviene usar cada uno?
 ¿El puerto que usaron para conectarse al server es el mismo que usan para mandar las respuestas? ¿Por qué?
 ¿Qué útil abstracción es utilizada para comunicarse con sockets? ¿se puede utilizar read(2) y write(2) para operar?
+¿Cómo garantiza TCP que los paquetes llegan en orden y no se pierden?
+Un servidor suele crear un nuevo proceso o thread para atender las conexiones entrantes. ¿Qué conviene más?
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -79,4 +81,14 @@ Notamos que llamaba a un strlen y a un write
 Break antes del strlen e inspeccionar el RDI
 
 La respuesta es: pistolero
+
+--------------------------------------------------------------------------------
+
+strings es un comando de la terminal
+
+Al hacerle un man sale que tenes que pasarle un archivo
+
+Si se hace "strings server" salen muchos strings, hay que buscar el que estaria en la posición 250 en un 0 based index
+
+La respuesta es: easter_egg
 
