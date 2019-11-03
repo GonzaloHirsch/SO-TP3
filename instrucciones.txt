@@ -92,3 +92,11 @@ Si se hace "strings server" salen muchos strings, hay que buscar el que estaria 
 
 La respuesta es: easter_egg
 
+--------------------------------------------------------------------------------
+
+Se puede hacer un "readelf --sections server"
+
+Ahi salen las secciones en el orden de la consigna, y hay que escribir la que falta
+
+La respuesta es: .whatAmI
+
