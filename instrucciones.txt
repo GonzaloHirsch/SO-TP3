@@ -37,6 +37,8 @@ A partir de ese punto se pueden escribir respuestas y darle enter para ver que s
 
 Mandarle un "entendido\n" al server, esto se supone que lo deberia decir Ariel
 
+La respuesta es: "entendido\n"
+
 --------------------------------------------------------------------------------
 
 El proximo desafio son los movimientos de los cursores sobre la terminal. Esos movimientos son los movimientos que haces cuando queres llamar a alguien en el dial del celular
@@ -48,7 +50,7 @@ El proximo desafio son los movimientos de los cursores sobre la terminal. Esos m
 
 Son los movimientos que harias partiendo del #, izquierda al 0, arriba al 8, arriba al 5, izquierda al 4, abajo al 7, derecha al 8, abajo al 0 y izquierda al *
 
-Siendo la respuesta: #0854780*
+La respuesta es: "#0854780*""
 
 --------------------------------------------------------------------------------
 
@@ -60,6 +62,8 @@ morse
 
 Para traducirlo usar: https://morsecode.scphillips.com/labs/decoder/
 Poner la segunda opcion de codigo, "alphabet"
+
+La respuesta es: "morse"
 
 --------------------------------------------------------------------------------
 
