@@ -41,7 +41,6 @@ int main(int argc, char const *argv[])
     char c;
     int index = 0;
 
-    printf("%d", strcmp(buff, "quit") != 0);
     while(strcmp(buff, "quit") != 0){
         printf( "Enter a command :");
         while((c = getchar()) != '\n'){

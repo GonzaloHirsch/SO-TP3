@@ -11,9 +11,28 @@ Preguntas(en orden):
 ¿Cómo garantiza TCP que los paquetes llegan en orden y no se pierden?
 Un servidor suele crear un nuevo proceso o thread para atender las conexiones entrantes. ¿Qué conviene más?
 ¿Cómo se puede implementar un servidor que atienda muchas conexiones sin usar procesos ni threads?
+¿Qué aplicaciones se pueden utilizar para ver el tráfico por la red? --> Wireshark
+sockets es un mecanismo de IPC. ¿Qué es más eficiente entre sockets y pipes?
 
+---------------------------------------------------------------------------------------------------------------------------------------
 
-----------------------------------------------------------------------------------------------------------------------------------------
+Como correr el server y el client en dos terminales distintas en el mismo contenedor de docker
+
+En una terminal abrir docker y hacer
+
+./server
+
+En otra terminal, estando en la carpeta del repo, hacer
+
+docker exec -it {container id} bash
+
+Donde el container id es el id del contenedor que tiene el server corriendo
+
+Moverse a la carpeta del repo y hacer el 
+
+./client
+
+---------------------------------------------------------------------------------------------------------------------------------------
 
 Correr el proceso en el background de docker
 
@@ -102,3 +121,26 @@ Ahi salen las secciones en el orden de la consigna, y hay que escribir la que fa
 
 La respuesta es: .whatAmI
 
+--------------------------------------------------------------------------------
+
+Se puede hacer un
+
+strace ./server
+
+Ahi se ve a que descriptores se esta escribiendo, filtramos por el descriptor 1
+
+Ahi dice la respuesta
+
+La respuesta es: indeterminado
+
+--------------------------------------------------------------------------------
+
+Si se resizea la terminal, se obtiene una imagen de la mona lisa bastante clara
+
+El tamaño 79x29, en la terminal de Gonza
+
+Buscar Mona Lisa en Wikipedia y probar palabras relacionadas
+
+La respuesta es: la gioconda
+
+--------------------------------------------------------------------------------
