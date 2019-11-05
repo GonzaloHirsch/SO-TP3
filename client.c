@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
-#define PORT 8085
+#define PORT 23423
 #define MAX_MESSAGE_LENGTH 1024
 
 int main(int argc, char const *argv[])
@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
 
         while ((buff[index++] = getchar()) != '\n' && index < MAX_MESSAGE_LENGTH);
 
-        printf( "Message length %d", index);
+        //printf( "Message length %d", index);
         if (index >= MAX_MESSAGE_LENGTH){
           printf( "\nThe message is too long!");
         } else {

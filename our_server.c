@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #define MAX_MESSAGE_LENGTH 1024
-#define PORT 8085
+#define PORT 23423
 #define SA struct sockaddr
 #define MAX_LEVEL 10
 

@@ -30,7 +30,7 @@ docker exec -it {container id} bash
 
 Donde el container id es el id del contenedor que tiene el server corriendo
 
-Moverse a la carpeta del repo y hacer el 
+Moverse a la carpeta del repo y hacer el
 
 ./client
 
@@ -48,10 +48,10 @@ cat /proc/net/udp
 
 Probando con el de tcp sale info, sino no
 
-sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode                                                     
-   0: 00000000:5B7F 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 55674 1 0000000000000000 100 0 0 10 0 
+sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
+   0: 00000000:5B7F 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 55674 1 0000000000000000 100 0 0 10 0
 
-En esto nos fijamos en el local_address -> Esto tiene 2 partes -> la primera es el ip, la segunda es el port -> el ip va a ser 0.0.0.0 y el port es el decimal del heza 5B7F
+En esto nos fijamos en el local_address -> Esto tiene 2 partes -> la primera es el ip, la segunda es el port -> el ip va a ser 0.0.0.0 y el port es el decimal del heza 5B7F(23423)
 
 Con esto sabemos en donde conectarnos con el client
 
@@ -62,12 +62,27 @@ Correr el proceso en el forground de docker
 A partir de ese punto se pueden escribir respuestas y darle enter para ver que sale
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+Bienvenidos al TP3 y felicitaciones, ya resolvieron el primer acertijo.
+
+En este TP deberán finalizar el juego que ya comenzaron resolviendo los desafíos de cada nivel.
+Además tendrán que investigar otras preguntas para responder durante la defensa.
+El desafío final consiste en crear un servidor que se comporte igual que yo, es decir, que provea los mismos desafíos y que sea necesario hacer lo mismo para resolverlos. No basta con esperar la respuesta correcta.
+Además deberán implementar el cliente para comunicarse con este servidor.
+
+----- PREGUNTA PARA INVESTIGAR -----
+¿Cómo descubrieron el protocolo, la dirección y el puerto para conectarse?
 
 Mandarle un "entendido\n" al server, esto se supone que lo deberia decir Ariel
 
 La respuesta es: entendido
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+# \033[D \033[A \033[A \033[D \033[B \033[C \033[B \033[D *
+
+----- PREGUNTA PARA INVESTIGAR -----
+¿Qué diferencias hay entre TCP y UDP y en qué casos conviene usar cada uno?
 
 El proximo desafio son los movimientos de los cursores sobre la terminal. Esos movimientos son los movimientos que haces cuando queres llamar a alguien en el dial del celular
 
@@ -81,6 +96,11 @@ Son los movimientos que harias partiendo del #, izquierda al 0, arriba al 8, arr
 La respuesta es: #0854780*
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+https://vocaroo.com/i/s19015zmR4t8
+
+----- PREGUNTA PARA INVESTIGAR -----
+¿El puerto que usaron para conectarse al server es el mismo que usan para mandar las respuestas? ¿Por qué?
 
 Usando lo que subio del archivo, el audio que bajas es un codigo morse
 
@@ -94,7 +114,12 @@ Poner la segunda opcion de codigo, "alphabet"
 La respuesta es: morse
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+EBADF... abrilo y verás o redirijilo ;)
 
+----- PREGUNTA PARA INVESTIGAR -----
+¿Qué útil abstracción es utilizada para comunicarse con sockets? ¿se puede utilizar read(2) y write(2) para operar?
+p
 EBADF es Error Bad File Descriptor, tiene el valor 9 en la definicion
 
 Usando GDB, hacer un dissassembly de la funcion ebadf
@@ -106,6 +131,11 @@ Break antes del strlen e inspeccionar el RDI
 La respuesta es: pistolero
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+respuesta=strings[250]
+
+----- PREGUNTA PARA INVESTIGAR -----
+¿Cómo garantiza TCP que los paquetes llegan en orden y no se pierden?
 
 strings es un comando de la terminal
 
@@ -116,6 +146,11 @@ Si se hace "strings server" salen muchos strings, hay que buscar el que estaria 
 La respuesta es: easter_egg
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+.data .bss .comment ? .shstrtab .symtab .strtab
+
+----- PREGUNTA PARA INVESTIGAR -----
+Un servidor suele crear un nuevo proceso o thread para atender las conexiones entrantes. ¿Qué conviene más?
 
 Se puede hacer un "readelf --sections server"
 
@@ -124,6 +159,12 @@ Ahi salen las secciones en el orden de la consigna, y hay que escribir la que fa
 La respuesta es: .whatAmI
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+mixed fds
+nrwdlptdmypqpuszxvaptr rrdpvtohdesrppwkubesdtta akndncftkjurfz iktazzesebvteisgh acrendrfuqnaktjskiigvjxjkoouhpx suwvlkenderziksjevif qqsocuhjeqirjngzihjylpvtnouxeusdhoetysehomracgcfkcpjmjmyioxwdymdnpjdsadjgdotqls
+
+----- PREGUNTA PARA INVESTIGAR -----
+¿Cómo se puede implementar un servidor que atienda muchas conexiones sin usar procesos ni threads?
 
 Se puede hacer un
 
@@ -136,6 +177,9 @@ Ahi dice la respuesta
 La respuesta es: indeterminado
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+Portrait
+                                  _______                                                                 _,,ad8888888888bba,_                                                        ,ad88888I888888888888888ba,                                                  ,88888888I88888888888888888888a,                                             ,d888888888I8888888888888888888888b,                                          d88888PP"""" ""YY88888888888888888888b,                                      ,d88"'__,,--------,,,,.;ZZZY8888888888888,                                    ,8IIl'"                ;;l"ZZZIII8888888888,                                  ,I88l;'                  ;lZZZZZ888III8888888,                               ,II88Zl;.                  ;llZZZZZ888888I888888,                             ,II888Zl;.                .;;;;;lllZZZ888888I8888b                            ,II8888Z;;                 `;;;;;''llZZ8888888I8888,                           II88888Z;'                        .;lZZZ8888888I888b                           II88888Z; _,aaa,      .,aaaaa,__.l;llZZZ88888888I888                           II88888IZZZZZZZZZ,  .ZZZZZZZZZZZZZZ;llZZ88888888I888,                          II88888IZZ<'(@@>Z|  |ZZZ<'(@@>ZZZZ;;llZZ888888888I88I                         ,II88888;   `""" ;|  |ZZ; `"""     ;;llZ8888888888I888                         II888888l            `;;          .;llZZ8888888888I888,                       ,II888888Z;           ;;;        .;;llZZZ8888888888I888I                       III888888Zl;    ..,   `;;       ,;;lllZZZ88888888888I888                       II88888888Z;;...;(_    _)      ,;;;llZZZZ88888888888I888,                      II88888888Zl;;;;;' `--'Z;.   .,;;;;llZZZZ88888888888I888b                      ]I888888888Z;;;;'   ";llllll;..;;;lllZZZZ88888888888I8888,                     II888888888Zl.;;"Y88bd888P";;,..;lllZZZZZ88888888888I8888I                     II8888888888Zl;.; `"PPP";;;,..;lllZZZZZZZ88888888888I88888                     II888888888888Zl;;. `;;;l;;;;lllZZZZZZZZW88888888888I88888                     `II8888888888888Zl;.    ,;;lllZZZZZZZZWMZ88888888888I88888                      II8888888888888888ZbaalllZZZZZZZZZWWMZZZ8888888888I888888,                     `II88888888888888888b"WWZZZZZWWWMMZZZZZZI888888888I888888b                      `II88888888888888888;ZZMMMMMMZZZZZZZZllI888888888I8888888                       `II8888888888888888 `;lZZZZZZZZZZZlllll888888888I8888888,                       II8888888888888888, `;lllZZZZllllll;;.Y88888888I8888888b,                     ,II8888888888888888b   .;;lllllll;;;.;..88888888I88888888b,                    II888888888888888PZI;.  .`;;;.;;;..; ...88888888I8888888888,                   II888888888888PZ;;';;.   ;. .;.  .;. .. Y8888888I88888888888b,                ,II888888888PZ;;'                        `8888888I8888888888888b,              II888888888'                              888888I8888888888888888b            ,II888888888                              ,888888I88888888888888888           ,d88888888888                              d888888I8888888888ZZZZZZZ        ,ad888888888888I                              8888888I8888ZZZZZZZZZZZZZ      ,d888888888888888'                              888888IZZZZZZZZZZZZZZZZZZ    ,d888888888888P'8P'                               Y888ZZZZZZZZZZZZZZZZZZZZZ   ,8888888888888,  "                                 ,ZZZZZZZZZZZZZZZZZZZZZZZZ  d888888888888888,                                ,ZZZZZZZZZZZZZZZZZZZZZZZZZZZ  888888888888888888a,      _                    ,ZZZZZZZZZZZZZZZZZZZZ888888888  888888888888888888888ba,_d'                  ,ZZZZZZZZZZZZZZZZZ88888888888888  8888888888888888888888888888bbbaaa,,,______,ZZZZZZZZZZZZZZZ888888888888888888  88888888888888888888888888888888888888888ZZZZZZZZZZZZZZZ888888888888888888888  8888888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888  888888888888888888888888888888888888888ZZZZZZZZZZZZZZ888888888888888888888888  8888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888  88888888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888888888888  8888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888  88888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888888888888888  8888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888888
 
 Si se resizea la terminal, se obtiene una imagen de la mona lisa bastante clara
 
@@ -146,12 +190,24 @@ Buscar Mona Lisa en Wikipedia y probar palabras relacionadas
 La respuesta es: la gioconda
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+Tango Hotel India Sierra India Sierra Alfa Whiskey Echo Sierra Oscar Mike Echo
+
+----- PREGUNTA PARA INVESTIGAR -----
+sockets es un mecanismo de IPC. ¿Qué es más eficiente entre sockets y pipes?
 
 Salen algunas palabras en el abecedario internacional de los militares, usar la primer letra de cada palabra como se deberia
 
 La respuesta es: this is awesome
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+quine
+¡Genial!, ya lograron meter un programa en quine.c, veamos si hace lo que corresponde:
+¡Genial! la respuesta a este acertijo es abalastro
+
+----- PREGUNTA PARA INVESTIGAR -----
+¿Cuáles son las características del protocolo SCTP?
 
 Cargar un archivo quine.c en el directorio del TP3
 
@@ -165,6 +221,12 @@ int main(){char*c="#include <stdio.h>%cint main(){char*c=%c%s%c;printf(c,10,34,c
 La respuesta es: abalastro
 
 --------------------------------------------------------------------------------
+------------- DESAFIO -------------
+b gdbme y encontrá el valor mágico
+try again
+
+----- PREGUNTA PARA INVESTIGAR -----
+¿Qué es un RFC?
 
 Con gdb hacemos un debugging de la funcion gdbme
 
