@@ -170,4 +170,8 @@ Con gdb hacemos un debugging de la funcion gdbme
 
 Hay que pararse cuando hay un 0x12345, y cambiar el valor de la posicion que indica por ese numero
 
+Hay que hacer:
+
+set *(int *)($rbp-0x4) = 0x12345
+
 La respuesta es: gdb es la hostia
