@@ -14,6 +14,7 @@ Un servidor suele crear un nuevo proceso o thread para atender las conexiones en
 ¿Qué aplicaciones se pueden utilizar para ver el tráfico por la red? --> Wireshark
 sockets es un mecanismo de IPC. ¿Qué es más eficiente entre sockets y pipes?
 ¿Cuáles son las características del protocolo SCTP?
+¿Qué es un RFC?
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -149,3 +150,16 @@ La respuesta es: la gioconda
 Salen algunas palabras en el abecedario internacional de los militares, usar la primer letra de cada palabra como se deberia
 
 La respuesta es: this is awesome
+
+--------------------------------------------------------------------------------
+
+Cargar un archivo quine.c en el directorio del TP3
+
+El quine imprime una copia de si mismo
+
+Quine que funciona(tiene que terminar con una newline al final):
+
+#include <stdio.h>
+int main(){char*c="#include <stdio.h>%cint main(){char*c=%c%s%c;printf(c,10,34,c,34,10);return 0;}%c";printf(c,10,34,c,34,10);return 0;}
+
+La respuesta es: abalastro
