@@ -163,3 +163,11 @@ Quine que funciona(tiene que terminar con una newline al final):
 int main(){char*c="#include <stdio.h>%cint main(){char*c=%c%s%c;printf(c,10,34,c,34,10);return 0;}%c";printf(c,10,34,c,34,10);return 0;}
 
 La respuesta es: abalastro
+
+--------------------------------------------------------------------------------
+
+Con gdb hacemos un debugging de la funcion gdbme
+
+Hay que pararse cuando hay un 0x12345, y cambiar el valor de la posicion que indica por ese numero
+
+La respuesta es: gdb es la hostia
