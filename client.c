@@ -49,7 +49,8 @@ int main(int argc, char const *argv[])
         if (index >= MAX_MESSAGE_LENGTH){
           printf( "\nThe message is too long!");
         } else {
-          buff[index] = 0;
+          // Sacamos el newline que queda al final
+          buff[--index] = 0;
 
           write(sock, buff, sizeof(buff));
         }
