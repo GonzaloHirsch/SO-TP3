@@ -119,7 +119,7 @@ EBADF... abrilo y verás o redirijilo ;)
 
 ----- PREGUNTA PARA INVESTIGAR -----
 ¿Qué útil abstracción es utilizada para comunicarse con sockets? ¿se puede utilizar read(2) y write(2) para operar?
-p
+
 EBADF es Error Bad File Descriptor, tiene el valor 9 en la definicion
 
 Usando GDB, hacer un dissassembly de la funcion ebadf

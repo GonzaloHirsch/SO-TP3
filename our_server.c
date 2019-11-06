@@ -13,6 +13,7 @@
 #define SA struct sockaddr
 #define MAX_LEVEL 10
 #define RAND (double)(rand()/((double)RAND_MAX + 1))
+#define RAND_I(min, max) (((double)(rand()/((double)RAND_MAX + 1))) * (max - min)) + (min)
 #define CLEAR() printf("\033[H\033[J")
 #define MAX_WIDTH 3
 #define MAX_HEIGHT 4
@@ -21,24 +22,24 @@ static char * rsp[MAX_LEVEL] = {
   "",
   "entendido",
   "",
+  "morse",
+  "pistolero",
   "",
   "",
-  "",
-  "",
-  "",
+  "indeterminado",
   "",
   ""
 };
 
 static char * pistas[MAX_LEVEL] = {
   "",
-  "Bienvenidos al TP3 y felicitaciones, ya resolvieron el primer acertijo.\nEn este TP deberán finalizar el juego que ya comenzaron resolviendo los desafíos de cada nivel.\nAdemás tendrán que investigar otras preguntas para responder durante la defensa.\nEl desafío final consiste en crear un servidor que se comporte igual que yo, es decir, que provea los mismos desafíos y que sea necesario hacer lo mismo para resolverlos.\nNo basta con esperar la respuesta correcta.\nAdemás deberán implementar el cliente para comunicarse con este servidor.",
+  "Bienvenidos al TP3 y felicitaciones, ya resolvieron el primer acertijo.\n Esta es la copia del servidor por si no se dieron cuenta. Hicimos algunos desafios dinamicos, para que no se memorizen la respuesta ni la traten de romper.",
+  "",
+  "https://vocaroo.com/i/s1lD9m8lGzei",
+  "EBADF... abrilo y verás o redirijilo ;)",
   "",
   "",
-  "",
-  "",
-  "",
-  "",
+  "mixed fds",
   "",
   ""
 };
@@ -46,6 +47,8 @@ static char * pistas[MAX_LEVEL] = {
 static const char desafio_header[] = "------------- DESAFIO -------------";
 
 static int level = 0;
+
+int path_finder(char * poss, char * rsp);
 
 int path_finder(char * poss, char * rsp){
   int index = 0;
@@ -140,17 +143,98 @@ int path_finder(char * poss, char * rsp){
   }
 }
 
+// Hace algunas cosas raras en el medio, para que un disass de GDB no lo haga muy obvio
+void ebadf(){
+  char decoy[30] = {0};
+  int random_n = RAND;
+
+  random_n = random_n * 10 + 654;
+
+  if (random < 0){
+    decoy[14] = '5';
+    ebadf();
+    return;
+  }
+
+  time(NULL);
+
+  random_n = RAND;
+
+  char str[] = "La respuesta a este acertijo es pistolero\n";
+
+  if (decoy[23] == '\t'){
+    random_n = RAND;
+    ebadf();
+    return;
+  }
+
+  return;
+}
+
+void m_fds(){
+  int rnd, i, j;
+
+  for (i = 0; i < 13; i++){
+    rnd = RAND * 6;
+
+    for (j = 0; j < rnd; j++){
+      printf("323\n");
+      write(stdout, (char)RAND_I(32, 126), 1);
+    }
+
+    switch(i){
+      case 0:
+          write(stdin, "i", 1);
+      break;
+      case 1:
+          write(stdin, "n", 1);
+      break;
+      case 2:
+          write(stdin, "d", 1);
+      break;
+      case 3:
+          write(stdin, "e", 1);
+      break;
+      case 4:
+          write(stdin, "t", 1);
+      break;
+      case 5:
+          write(stdin, "e", 1);
+      break;
+      case 6:
+          write(stdin, "r", 1);
+      break;
+      case 7:
+          write(stdin, "m", 1);
+      break;
+      case 8:
+          write(stdin, "i", 1);
+      break;
+      case 9:
+          write(stdin, "n", 1);
+      break;
+      case 10:
+          write(stdin, "a", 1);
+      break;
+      case 11:
+          write(stdin, "d", 1);
+      break;
+      case 12:
+          write(stdin, "o", 1);
+      break;
+    }
+  }
+}
+
 void generate_clues(){
   pistas[2] = malloc(1024 * sizeof(char));
   rsp[2] = malloc(12 * sizeof(char));
 
   int lvl_length = path_finder(pistas[2], rsp[2]);
-  printf("Tiene longitud %d", lvl_length);
   while(lvl_length < 0){
     memset(pistas[2], 0, sizeof(pistas[2]));
     memset(rsp[2], 0, sizeof(rsp[2]));
     lvl_length = path_finder(pistas[2], rsp[2]);
-    printf("Tiene longitud %d", lvl_length);
   }
 }
 
@@ -230,6 +314,15 @@ void start_game(int socket_fd){
     printf("%s\n", desafio_header);
     printf("%s\n", pistas[level]);
     fflush( stdout );
+
+    switch(level){
+      case 4:
+        ebadf();
+      break;
+      case 7:
+        m_fds();
+      break;
+    }
 
     read(socket_fd, buff, sizeof(buff));
 
