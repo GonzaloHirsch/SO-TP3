@@ -18,6 +18,19 @@
 #define MAX_WIDTH 3
 #define MAX_HEIGHT 4
 
+static char * hello[10] = {
+"\x1B[35m  _______  _______            _________ _______  ______  \n",
+"\x1B[35m (  ____ \\(  ___  )           \\__   __/(  ____ )/ ___  \\ \n",
+"\x1B[35m | (    \\/| (   ) |              ) (   | (    )|\\/   \\  \\\n",
+"\x1B[35m | (_____ | |   | |   _____      | |   | (____)|   ___) /\n",
+"\x1B[35m (_____  )| |   | |  (_____)     | |   |  _____)  (___ ( \n",
+"\x1B[35m       ) || |   | |              | |   | (            ) \\\n",
+"\x1B[35m /\\____) || (___) |              | |   | )      /\\___/  /\n",
+"\x1B[35m \\_______)(_______)              )_(   |/       \\______/ \n",
+"\x1B[31mGonzalo Hirsch\x1B[0m - \x1B[32mIgnacio Ribas\x1B[0m -\x1B[33m Augusto Henestrosa\x1B[0m\n",
+"\x1B[0m\n\n"
+};
+
 static char * rsp[MAX_LEVEL] = {
   "",
   "entendido",
@@ -35,7 +48,7 @@ static char * rsp[MAX_LEVEL] = {
 
 static char * pistas[MAX_LEVEL] = {
   "",
-  "Bienvenidos al TP3 y felicitaciones, ya resolvieron el primer acertijo.\n Esta es la copia del servidor por si no se dieron cuenta. Hicimos algunos desafios dinamicos, para que no se memorizen la respuesta ni la traten de romper.",
+  "Bienvenidos al TP3 y felicitaciones, ya resolvieron el primer acertijo.\n Esta es la copia del servidor por si no se dieron cuenta.\nHicimos algunos desafios dinamicos, para que no se memoricen la respuesta ni la traten de romper.\nEscribir \"entendido\" para continuar",
   "",// Movimientos -> Se genera solo
   "https://vocaroo.com/i/s1lD9m8lGzei",
   "EBADF... abrilo y verás o redirijilo ;)",
@@ -62,6 +75,7 @@ void m_fds();
 void gen_c();
 int init_server();
 void start_game(int socket_fd);
+void say_hi();
 
 void portrait(){
   puts("                         _______");
@@ -137,6 +151,13 @@ void nato_pa(char * str, char * rsp){
     str = strcat(str, alpha[rnd]);
     str = strcat(str, "  ");
     rsp[i] = 'a' + rnd;
+  }
+}
+
+void say_hi(){
+  int i;
+  for (i = 0; i < 9; i++){
+    printf("%s", hello[i]);
   }
 }
 
@@ -447,6 +468,7 @@ void start_game(int socket_fd){
     // Pone en cero al buffer que recibe mensajes
     bzero(buff, MAX_MESSAGE_LENGTH);
 
+    say_hi();
     printf("%s\n", desafio_header);
     printf("%s\n", pistas[level]);
     fflush( stdout );
@@ -468,11 +490,11 @@ void start_game(int socket_fd){
 
     read(socket_fd, buff, sizeof(buff));
     if (strcmp(rsp[level], buff) == 0){
-      printf("\nRespuesta correcta");
+      printf("\n\x1B[31mRespuesta correcta\x1B[0m");
       fflush( stdout );
       level++;
     } else {
-      printf("\nRespuesta incorrecta: %s", buff);
+      printf("\n\x1B[32mRespuesta incorrecta: %s\x1B[0m", buff);
       fflush( stdout );
     }
   }
