@@ -459,9 +459,6 @@ void start_game(int socket_fd){
     printf("%s\n", pistas[level]);
 
     switch(level){
-      case 1:
-        quine();
-      break;
       case 4:
         ebadf();
       break;
