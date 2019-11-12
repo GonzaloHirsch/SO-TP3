@@ -1,6 +1,9 @@
 Puntos Extra:
 
-Decir "valgrind manda"
+Decir "valgrind manda" --> En el dissassembly dice eso
+Interpretar un fragmento de dialogo de los Les Luthiers --> Se hace una inspeccion de la direccion de memoria a la que apunta el easter_egg
+
+---------------------------------------------------------------------------------------------------------------------------------------
 
 Preguntas(en orden):
 

@@ -3,13 +3,14 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <strings.h>
 #include <string.h>
 #define PORT 23423
 #define MAX_MESSAGE_LENGTH 1024
 
 int main(int argc, char const *argv[])
 {
-    int sock = 0, valread;
+    int sock = 0;
     struct sockaddr_in serv_addr;
 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -35,7 +36,6 @@ int main(int argc, char const *argv[])
     }
 
     char buff[MAX_MESSAGE_LENGTH] = {0};
-    char c;
     int index;
 
     while(strcmp(buff, "quit") != 0){

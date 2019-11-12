@@ -2,12 +2,15 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <time.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <strings.h>
+#include <unistd.h>
+#include <string.h>
 #define MAX_MESSAGE_LENGTH 1024
 #define PORT 23423
 #define SA struct sockaddr
@@ -31,14 +34,16 @@ static char * hello[10] = {
 "\x1B[0m\n\n"
 };
 
+char msg[] = "easter_egg";
+
 static char * rsp[MAX_LEVEL] = {
   "",
   "entendido",
   "",// Movimientos -> Se genera solo
   "morse",
   "pistolero",
-  "",
-  "",
+  "easter_egg",
+  ".whatAmI",
   "indeterminado",
   "la gioconda",
   "",// Alphabeto Fonetico Nato -> Se genera solo
@@ -52,8 +57,8 @@ static char * pistas[MAX_LEVEL] = {
   "",// Movimientos -> Se genera solo
   "https://vocaroo.com/i/s1lD9m8lGzei",
   "EBADF... abrilo y verás o redirijilo ;)",
-  "",
-  "",
+  "respuesta=strings[200]",
+  ".data .bss .comment ? .shstrtab .symtab .strtab",
   "mixed fds",
   "Portrait",
   "",// Alphabeto Fonetico Nato -> Se genera solo
@@ -205,12 +210,16 @@ void in(){
   char str[] = "La respuesta a este acertijo es gdb es la hostia\n";
 }
 
+void section(){
+
+}
+
 void gdbme(){
   int j = 140;
   char decoy[30] = {0};
   int random_n = RAND;
 
-  if (random < 0){
+  if (random_n < -10){
     decoy[14] = '5';
     ebadf();
     return;
@@ -241,10 +250,11 @@ void gdbme(){
 void ebadf(){
   char decoy[30] = {0};
   int random_n = RAND;
+  char rsp[] = "La respuesta a este acertijo es pistolero\n";
 
   random_n = random_n * 10 + 654;
 
-  if (random < 0){
+  if (random_n < -10){
     decoy[14] = '5';
     ebadf();
     return;
@@ -254,7 +264,11 @@ void ebadf(){
 
   random_n = RAND;
 
-  char str[] = "La respuesta a este acertijo es pistolero\n";
+  int fd = open("ebadf.txt", O_CREAT);
+
+  write(fd, rsp, strlen(rsp));
+
+  close(fd);
 
   if (decoy[23] == '\t'){
     random_n = RAND;
@@ -382,7 +396,7 @@ void quine(){
 }
 
 int init_server(){
-  int sockfd, connfd, len, res;
+  int sockfd, connfd, len;
   struct sockaddr_in servaddr, cli;
 
   // Crea el socket y verifica que la creacion haya sido correcta
@@ -445,9 +459,6 @@ void start_game(int socket_fd){
 
   gen_c();
 
-  // Level 1
-  char * poss = NULL;
-
   while(level < MAX_LEVEL && level > 0){
     sleep(1);
     CLEAR();
@@ -491,7 +502,6 @@ void start_game(int socket_fd){
 
 int main()
 {
-
     level = 0;
 
     // Inicializa el socket y la conexion
@@ -502,4 +512,6 @@ int main()
 
     // Cierra el socket al terminar
     close(socket_fd);
+
+    return 0;
 }
