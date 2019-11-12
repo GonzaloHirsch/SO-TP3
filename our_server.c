@@ -358,7 +358,7 @@ void gen_c(){
 
 void quine(){
   char * command = "gcc quine.c -o quine | grep -c \"error\"";
-  char buff[1024] = {0};
+  char buff[2048] = {0};
 
   FILE *fp;
 
@@ -366,7 +366,7 @@ void quine(){
       printf("Error opening pipe!\n");
       return;
   }
-  while (fgets(buff, 1024, fp) != NULL);
+  while (fgets(buff, 2048, fp) != NULL);
   if(pclose(fp) < 0)  {
       printf("Command not found or exited with error status\n");
       return;
@@ -380,7 +380,7 @@ void quine(){
         printf("Error opening pipe!\n");
         return;
     }
-    while (fgets(buff, 1024, fp) != NULL);
+    while (fgets(buff, 2048, fp) != NULL);
     if (strcmp(buff, "") == 0){
         printf("Genial! La respuesta a este ejercicio es abalastro");
     } else {
