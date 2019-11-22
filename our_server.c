@@ -78,7 +78,7 @@ static char * pistas[MAX_LEVEL] = {
   "",// Movimientos -> Se genera solo
   "https://vocaroo.com/i/s1lD9m8lGzei",
   "EBADF... abrilo y verás o redirijilo ;)",
-  "respuesta=strings[156]",
+  "respuesta=strings[145]",
   ".data .bss .comment ? .shstrtab .symtab .strtab",
   "mixed fds",
   "Portrait",
