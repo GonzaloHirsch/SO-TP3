@@ -21,6 +21,8 @@
 #define MAX_WIDTH 3
 #define MAX_HEIGHT 4
 #define BUFF_SIZE 4096
+#define RSP_MAX_SIZE 20
+#define PISTA_MAX_SIZE 2048
 
 static char * hello[10] = {
 "\x1B[35m  _______  _______            _________ _______  ______  \n",
@@ -45,31 +47,31 @@ static char * alpha[26] = {
 };
 
 static char * rsp[MAX_LEVEL] = {
-  NULL,
+  "",
   "entendido",
-  NULL,// Movimientos -> Se genera solo
+  "",// Movimientos -> Se genera solo
   "morse",
   "pistolero",
   "easter_egg",
   ".whatAmI",
   "indeterminado",
   "la gioconda",
-  NULL,// Alphabeto Fonetico Nato -> Se genera solo
+  "",// Alphabeto Fonetico Nato -> Se genera solo
   "abalastro",
   "gdb es la hostia"
 };
 
 static char * pistas[MAX_LEVEL] = {
-  NULL,
+  "",
   "Bienvenidos al TP3 y felicitaciones, ya resolvieron el primer acertijo.\nEsta es la copia del servidor por si no se dieron cuenta.\nHicimos algunos desafios dinamicos, para que no se memoricen la respuesta ni la traten de romper.\nEscribir \"entendido\" para continuar",
-  NULL,// Movimientos -> Se genera solo
+  "",// Movimientos -> Se genera solo
   "https://vocaroo.com/i/s1lD9m8lGzei",
   "EBADF... abrilo y verás o redirijilo ;)",
   "respuesta=strings[156]",
   ".data .bss .comment ? .shstrtab .symtab .strtab",
   "mixed fds",
   "Portrait",
-  NULL,// Alphabeto Fonetico Nato -> Se genera solo
+  "",// Alphabeto Fonetico Nato -> Se genera solo
   "quine",
   "b gdbme y encontrá el valor mágico"
 };
@@ -232,10 +234,6 @@ void ebadf(){
   char rsp[] = "La respuesta a este acertijo es pistolero\n";
 
   int fd = open("ebadf.txt", O_CREAT);
-  if (fd < 0){
-    perror("Error:");
-  }
-  
   write(fd, rsp, strlen(rsp));
   close(fd);
 
@@ -301,8 +299,8 @@ void m_fds(){
 }
 
 void gen_c(){
-  int size_pista = 1024 * sizeof(char);
-  int size_rsp = 16 * sizeof(char);
+  int size_pista = PISTA_MAX_SIZE * sizeof(char);
+  int size_rsp = RSP_MAX_SIZE * sizeof(char);
 
   pistas[2] = malloc(size_pista);
   rsp[2] = malloc(size_rsp);
@@ -374,6 +372,7 @@ void quine(){
 int init_server(){
   int sockfd, connfd, len;
   struct sockaddr_in servaddr, cli;
+  level = 0;
 
   // Crea el socket y verifica que la creacion haya sido correcta
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -423,7 +422,6 @@ int init_server(){
 
 void start_game(int socket_fd){
   char buff[MAX_MESSAGE_LENGTH];
-  level = 0;
 
   gen_c();
 
