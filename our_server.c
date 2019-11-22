@@ -5,6 +5,9 @@
   Se entendio y se adapto a nuestras necesidades
 */
 
+//Necesario para que no de warnings de declaracion implicita de funciones POSIX
+#define _XOPEN_SOURCE 700
+
 #include <stdio.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -18,6 +21,7 @@
 #include <strings.h>
 #include <unistd.h>
 #include <string.h>
+
 #define MAX_MESSAGE_LENGTH 1024
 #define PORT 23423
 #define SA struct sockaddr
@@ -391,7 +395,7 @@ int init_server(){
   }
 
   // Borra los contenidos de lo que hay en servaddr
-  bzero(&servaddr, sizeof(servaddr));
+  memset(&servaddr, 0, sizeof(servaddr));
 
   // Asinga el IP y el PUERTO
   servaddr.sin_family = AF_INET;
@@ -437,7 +441,7 @@ void start_game(int socket_fd){
     sleep(1);
     CLEAR();
     // Pone en cero al buffer que recibe mensajes
-    bzero(buff, MAX_MESSAGE_LENGTH);
+    memset(buff, 0, MAX_MESSAGE_LENGTH);
 
     say_hi();
     printf("%s\n", desafio_header);

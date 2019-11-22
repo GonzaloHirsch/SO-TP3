@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
     int index;
 
     while(strcmp(buff, "quit") != 0){
-        bzero(buff, MAX_MESSAGE_LENGTH);
+        memset(buff, 0, MAX_MESSAGE_LENGTH);
         index = 0;
         printf( "\nEnter a message: ");
 
