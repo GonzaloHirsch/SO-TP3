@@ -1,3 +1,10 @@
+/*
+  El código para armar el server(la parte de la conexion con el socket) fue sacado de:
+    https://www.geeksforgeeks.org/socket-programming-cc/
+
+  Se entendio y se adapto a nuestras necesidades
+*/
+
 #include <stdio.h>
 #include <netdb.h>
 #include <netinet/in.h>
