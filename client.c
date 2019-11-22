@@ -45,7 +45,6 @@ int main(int argc, char const *argv[])
 
         while ((buff[index++] = getchar()) != '\n' && index < MAX_MESSAGE_LENGTH);
 
-        //printf( "Message length %d", index);
         if (index >= MAX_MESSAGE_LENGTH){
           printf( "\nThe message is too long!");
         } else {
@@ -54,12 +53,6 @@ int main(int argc, char const *argv[])
 
           write(sock, buff, sizeof(buff));
         }
-
-        //gets(buff);
-        //send(sock , buff , strlen(buff) , 0 );
-        //valread = read( sock , buffer, 1024);
-        //printf("%s\n",buffer );
-
     }
 
     return 0;

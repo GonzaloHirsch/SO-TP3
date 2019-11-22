@@ -20,6 +20,7 @@
 #define CLEAR() printf("\033[H\033[J")
 #define MAX_WIDTH 3
 #define MAX_HEIGHT 4
+#define BUFF_SIZE 4096
 
 static char * hello[10] = {
 "\x1B[35m  _______  _______            _________ _______  ______  \n",
@@ -36,39 +37,47 @@ static char * hello[10] = {
 
 char msg[] = "easter_egg";
 
+// Alphabeto fonetico de la NATO
+static char * alpha[26] = {
+  "Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliett", "Kilo",
+  "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor",
+  "Whiskey", "X-Ray", "Yankee", "Zulu"
+};
+
 static char * rsp[MAX_LEVEL] = {
-  "",
+  NULL,
   "entendido",
-  "",// Movimientos -> Se genera solo
+  NULL,// Movimientos -> Se genera solo
   "morse",
   "pistolero",
   "easter_egg",
   ".whatAmI",
   "indeterminado",
   "la gioconda",
-  "",// Alphabeto Fonetico Nato -> Se genera solo
+  NULL,// Alphabeto Fonetico Nato -> Se genera solo
   "abalastro",
   "gdb es la hostia"
 };
 
 static char * pistas[MAX_LEVEL] = {
-  "",
+  NULL,
   "Bienvenidos al TP3 y felicitaciones, ya resolvieron el primer acertijo.\nEsta es la copia del servidor por si no se dieron cuenta.\nHicimos algunos desafios dinamicos, para que no se memoricen la respuesta ni la traten de romper.\nEscribir \"entendido\" para continuar",
-  "",// Movimientos -> Se genera solo
+  NULL,// Movimientos -> Se genera solo
   "https://vocaroo.com/i/s1lD9m8lGzei",
   "EBADF... abrilo y verás o redirijilo ;)",
-  "respuesta=strings[200]",
+  "respuesta=strings[156]",
   ".data .bss .comment ? .shstrtab .symtab .strtab",
   "mixed fds",
   "Portrait",
-  "",// Alphabeto Fonetico Nato -> Se genera solo
+  NULL,// Alphabeto Fonetico Nato -> Se genera solo
   "quine",
   "b gdbme y encontrá el valor mágico"
 };
 
 static const char desafio_header[] = "------------- DESAFIO -------------";
 
-static int level = 0;
+// Variable que indica en que nivel del juego se encuentra
+static int level;
 
 int path_finder(char * poss, char * rsp);
 void nato_pa(char * str, char * rsp);
@@ -82,18 +91,15 @@ int init_server();
 void start_game(int socket_fd);
 void say_hi();
 void quine();
+void free_all_memory();
 
+// Funcion para imprimir el portait
 void portrait(){
   puts("                                  _______                                                                 _,,ad8888888888bba,_                                                        ,ad88888I888888888888888ba,                                                  ,88888888I88888888888888888888a,                                             ,d888888888I8888888888888888888888b,                                          d88888PP\"\"\"\" \"\"YY88888888888888888888b,                                      ,d88\"\'__,,--------,,,,.;ZZZY8888888888888,                                    ,8IIl\'\"                ;;l\"ZZZIII8888888888,                                  ,I88l;\'                  ;lZZZZZ888III8888888,                               ,II88Zl;.                  ;llZZZZZ888888I888888,                             ,II888Zl;.                .;;;;;lllZZZ888888I8888b                            ,II8888Z;;                 `;;;;;\'\'llZZ8888888I8888,                           II88888Z;\'                        .;lZZZ8888888I888b                           II88888Z; _,aaa,      .,aaaaa,__.l;llZZZ88888888I888                           II88888IZZZZZZZZZ,  .ZZZZZZZZZZZZZZ;llZZ88888888I888,                          II88888IZZ<\'(@@>Z|  |ZZZ<\'(@@>ZZZZ;;llZZ888888888I88I                         ,II88888;   `\"\"\" ;|  |ZZ; `\"\"\"     ;;llZ8888888888I888                         II888888l            `;;          .;llZZ8888888888I888,                       ,II888888Z;           ;;;        .;;llZZZ8888888888I888I                       III888888Zl;    ..,   `;;       ,;;lllZZZ88888888888I888                       II88888888Z;;...;(_    _)      ,;;;llZZZZ88888888888I888,                      II88888888Zl;;;;;\' `--\'Z;.   .,;;;;llZZZZ88888888888I888b                      ]I888888888Z;;;;\'   \";llllll;..;;;lllZZZZ88888888888I8888,                     II888888888Zl.;;\"Y88bd888P\";;,..;lllZZZZZ88888888888I8888I                     II8888888888Zl;.; `\"PPP\";;;,..;lllZZZZZZZ88888888888I88888                     II888888888888Zl;;. `;;;l;;;;lllZZZZZZZZW88888888888I88888                     `II8888888888888Zl;.    ,;;lllZZZZZZZZWMZ88888888888I88888                      II8888888888888888ZbaalllZZZZZZZZZWWMZZZ8888888888I888888,                     `II88888888888888888b\"WWZZZZZWWWMMZZZZZZI888888888I888888b                      `II88888888888888888;ZZMMMMMMZZZZZZZZllI888888888I8888888                       `II8888888888888888 `;lZZZZZZZZZZZlllll888888888I8888888,                       II8888888888888888, `;lllZZZZllllll;;.Y88888888I8888888b,                     ,II8888888888888888b   .;;lllllll;;;.;..88888888I88888888b,                    II888888888888888PZI;.  .`;;;.;;;..; ...88888888I8888888888,                   II888888888888PZ;;\';;.   ;. .;.  .;. .. Y8888888I88888888888b,                ,II888888888PZ;;\'                        `8888888I8888888888888b,              II888888888\'                              888888I8888888888888888b            ,II888888888                              ,888888I88888888888888888           ,d88888888888                              d888888I8888888888ZZZZZZZ        ,ad888888888888I                              8888888I8888ZZZZZZZZZZZZZ      ,d888888888888888\'                              888888IZZZZZZZZZZZZZZZZZZ    ,d888888888888P\'8P\'                               Y888ZZZZZZZZZZZZZZZZZZZZZ   ,8888888888888,  \"                                 ,ZZZZZZZZZZZZZZZZZZZZZZZZ  d888888888888888,                                ,ZZZZZZZZZZZZZZZZZZZZZZZZZZZ  888888888888888888a,      _                    ,ZZZZZZZZZZZZZZZZZZZZ888888888  888888888888888888888ba,_d\'                  ,ZZZZZZZZZZZZZZZZZ88888888888888  8888888888888888888888888888bbbaaa,,,______,ZZZZZZZZZZZZZZZ888888888888888888  88888888888888888888888888888888888888888ZZZZZZZZZZZZZZZ888888888888888888888  8888888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888  888888888888888888888888888888888888888ZZZZZZZZZZZZZZ888888888888888888888888  8888888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888  88888888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888888888888  8888888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888  88888888888888888888888888888888ZZZZZZZZZZZZZZ8888888888888888888888888888888  8888888888888888888888888888888ZZZZZZZZZZZZZZ88888888888888888888888888888888");
 }
 
+// Funcion para generar la respuesta con el alfabeto
 void nato_pa(char * str, char * rsp){
-  char * alpha[26] = {
-    "Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliett", "Kilo",
-    "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor",
-    "Whiskey", "X-Ray", "Yankee", "Zulu"
-  };
-
   int num = RAND_I(8, 15);
   int rnd;
   int i;
@@ -197,7 +203,7 @@ int path_finder(char * poss, char * rsp){
   poss[index] = '*';
 
   // Solo agregamos el 0 porque el * se agrega en el ultimo caso
-  rsp[length] = 0;
+  rsp[length++] = 0;
 
   if (length > 12){
     return -1;
@@ -210,26 +216,8 @@ void in(){
   char str[] = "La respuesta a este acertijo es gdb es la hostia\n";
 }
 
-void section(){
-
-}
-
 void gdbme(){
   int j = 140;
-  char decoy[30] = {0};
-  int random_n = RAND;
-
-  if (random_n < -10){
-    decoy[14] = '5';
-    ebadf();
-    return;
-  }
-
-  random_n = random_n * 10 + 654;
-
-  time(NULL);
-
-  random_n = RAND;
 
   if (j == 0){
     in();
@@ -237,44 +225,19 @@ void gdbme(){
     printf("Try Again\n");
   }
 
-  if (decoy[23] == '\t'){
-    random_n = RAND;
-    ebadf();
-    return;
-  }
-
   return;
 }
 
-// Hace algunas cosas raras en el medio, para que un disass de GDB no lo haga muy obvio
 void ebadf(){
-  char decoy[30] = {0};
-  int random_n = RAND;
   char rsp[] = "La respuesta a este acertijo es pistolero\n";
 
-  random_n = random_n * 10 + 654;
-
-  if (random_n < -10){
-    decoy[14] = '5';
-    ebadf();
-    return;
-  }
-
-  time(NULL);
-
-  random_n = RAND;
-
   int fd = open("ebadf.txt", O_CREAT);
-
-  write(fd, rsp, strlen(rsp));
-
-  close(fd);
-
-  if (decoy[23] == '\t'){
-    random_n = RAND;
-    ebadf();
-    return;
+  if (fd < 0){
+    perror("Error:");
   }
+  
+  write(fd, rsp, strlen(rsp));
+  close(fd);
 
   return;
 }
@@ -338,27 +301,40 @@ void m_fds(){
 }
 
 void gen_c(){
-  pistas[2] = malloc(1024 * sizeof(char));
-  rsp[2] = malloc(12 * sizeof(char));
+  int size_pista = 1024 * sizeof(char);
+  int size_rsp = 16 * sizeof(char);
+
+  pistas[2] = malloc(size_pista);
+  rsp[2] = malloc(size_rsp);
+  if (pistas[2] == NULL || rsp[2] == NULL){
+    printf("Error: Out of Memory");
+    exit(1);
+  }
+  memset(pistas[2], 0, size_pista);
+  memset(rsp[2], 0, size_rsp);
 
   int lvl_length = path_finder(pistas[2], rsp[2]);
   while(lvl_length < 0){
-    memset(pistas[2], 0, sizeof(pistas[2]));
-    memset(rsp[2], 0, sizeof(rsp[2]));
+    memset(pistas[2], 0, size_pista);
+    memset(rsp[2], 0, size_rsp);
     lvl_length = path_finder(pistas[2], rsp[2]);
   }
 
-  pistas[9] = malloc(1024 * sizeof(char));
-  rsp[9] = malloc(16 * sizeof(char));
-  memset(pistas[9], 0, sizeof(pistas[9]));
-  memset(rsp[9], 0, sizeof(rsp[9]));
+  pistas[9] = malloc(size_pista);
+  rsp[9] = malloc(size_rsp);
+  if (pistas[9] == NULL || rsp[9] == NULL){
+    printf("Error: Out of Memory");
+    exit(1);
+  }
+  memset(pistas[9], 0, size_pista);
+  memset(rsp[9], 0, size_rsp);
 
   nato_pa(pistas[9], rsp[9]);
 }
 
 void quine(){
   char * command = "gcc quine.c -o quine | grep -c \"error\"";
-  char buff[2048] = {0};
+  char buff[BUFF_SIZE] = {0};
 
   FILE *fp;
 
@@ -366,7 +342,7 @@ void quine(){
       printf("Error opening pipe!\n");
       return;
   }
-  while (fgets(buff, 2048, fp) != NULL);
+  while (fgets(buff, BUFF_SIZE, fp) != NULL);
   if(pclose(fp) < 0)  {
       printf("Command not found or exited with error status\n");
       return;
@@ -380,7 +356,7 @@ void quine(){
         printf("Error opening pipe!\n");
         return;
     }
-    while (fgets(buff, 2048, fp) != NULL);
+    while (fgets(buff, BUFF_SIZE, fp) != NULL);
     if (strcmp(buff, "") == 0){
         printf("Genial! La respuesta a este ejercicio es abalastro");
     } else {
@@ -406,9 +382,6 @@ int init_server(){
       perror("Error");
       exit(0);
   }
-  else {
-      printf("Socket successfully created..\n");
-  }
 
   // Borra los contenidos de lo que hay en servaddr
   bzero(&servaddr, sizeof(servaddr));
@@ -424,17 +397,12 @@ int init_server(){
       perror("Error");
       exit(0);
   }
-  else
-      printf("Socket successfully binded..\n");
 
   // Verifica que el server pueda escuchar
   if ((listen(sockfd, 5)) != 0) {
       printf("Listen failed...\n");
       perror("Error");
       exit(0);
-  }
-  else {
-      printf("Server listening..\n");
   }
 
   len = sizeof(cli);
@@ -447,7 +415,6 @@ int init_server(){
       exit(0);
   }
   else {
-      printf("server acccept the client...\n");
       level++;
   }
 
@@ -456,6 +423,7 @@ int init_server(){
 
 void start_game(int socket_fd){
   char buff[MAX_MESSAGE_LENGTH];
+  level = 0;
 
   gen_c();
 
@@ -500,6 +468,14 @@ void start_game(int socket_fd){
   }
 }
 
+// Liberamos toda la memoria que pedimos
+void free_all_memory(){
+  free(pistas[9]);
+  free(pistas[2]);
+  free(rsp[9]);
+  free(rsp[2]);
+}
+
 int main()
 {
     level = 0;
@@ -512,6 +488,8 @@ int main()
 
     // Cierra el socket al terminar
     close(socket_fd);
+
+    free_all_memory();
 
     return 0;
 }
