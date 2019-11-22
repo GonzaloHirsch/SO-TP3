@@ -96,7 +96,6 @@ int path_finder(char * poss, char * rsp);
 void nato_pa(char * str, char * rsp);
 void portrait();
 void gdbme();
-void in();
 void ebadf();
 void m_fds();
 void gen_c();
@@ -225,15 +224,11 @@ int path_finder(char * poss, char * rsp){
   }
 }
 
-void in(){
-  char str[] = "La respuesta a este acertijo es gdb es la hostia\n";
-}
 
 void gdbme(){
   int j = 140;
 
   if (j == 0){
-    in();
   } else {
     printf("Try Again\n");
   }
@@ -347,7 +342,7 @@ void quine(){
 
   FILE *fp;
 
-  if ((fp = (uint64_t)popen(command, "r")) == NULL) {
+  if ((fp = (FILE *) (uint64_t) popen(command, "r")) == NULL) {
       printf("Error opening pipe!\n");
       return;
   }
@@ -361,7 +356,7 @@ void quine(){
     printf("Muy bien, ya metieron un archivo! Veamos si hace lo que deberia!\n");
     command = "./quine | diff - quine.c";
     memset(buff, 0, sizeof(buff));
-    if ((fp = (uint64_t)popen(command, "r")) == NULL) {
+    if ((fp = (FILE *) (uint64_t) popen(command, "r")) == NULL) {
         printf("Error opening pipe!\n");
         return;
     }
