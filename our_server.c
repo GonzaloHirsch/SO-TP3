@@ -343,7 +343,7 @@ void quine(){
 
   FILE *fp;
 
-  if ((fp = popen(command, "r")) == NULL) {
+  if ((fp = (uint64_t)popen(command, "r")) == NULL) {
       printf("Error opening pipe!\n");
       return;
   }
@@ -357,7 +357,7 @@ void quine(){
     printf("Muy bien, ya metieron un archivo! Veamos si hace lo que deberia!\n");
     command = "./quine | diff - quine.c";
     memset(buff, 0, sizeof(buff));
-    if ((fp = popen(command, "r")) == NULL) {
+    if ((fp = (uint64_t)popen(command, "r")) == NULL) {
         printf("Error opening pipe!\n");
         return;
     }
@@ -377,7 +377,8 @@ void quine(){
 }
 
 int init_server(){
-  int sockfd, connfd, len;
+  int sockfd, connfd;
+  unsigned int len;
   struct sockaddr_in servaddr, cli;
   level = 0;
 
