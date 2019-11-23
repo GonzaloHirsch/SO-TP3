@@ -235,15 +235,25 @@ void gdbme(){
 
   return;
 }
-
-void ebadf(){
+/*
+void ebadf1(){
   char rsp[] = "La respuesta a este acertijo es pistolero\n";
+    int fd;
+  do{fd = open("ebadf.txt", O_CREAT, 0600);
+  }while(fd==-1);
 
-  int fd = open("ebadf.txt", O_CREAT);
   write(fd, rsp, strlen(rsp));
   close(fd);
 
-  return;
+}
+*/
+void ebadf(){
+    char rsp[] = "La respuesta a este acertijo es pistolero\n";
+    int fd[2];
+    pipe(fd);
+    close(fd[1]);
+    write(fd[0], rsp, strlen(rsp));
+    close(fd[0]);
 }
 
 void m_fds(){
